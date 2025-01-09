@@ -6,6 +6,7 @@ import com.factsmachine.service.FactsService
 import com.factsmachine.service.FactsServiceImpl
 import com.factsmachine.service.InMemoryStorageService
 import com.factsmachine.service.StorageService
+import com.fasterxml.jackson.databind.DeserializationFeature
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.serialization.jackson.*
@@ -28,7 +29,9 @@ fun Application.configureDI() {
             single {
                 HttpClient(OkHttp) {
                     install(ContentNegotiation) {
-                        jackson()
+                        jackson {
+                            configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                        }
                     }
                 }
             }

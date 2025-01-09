@@ -11,8 +11,12 @@ fun Application.configureRouting() {
     val factsService: FactsService by inject()
 
     routing {
-        get("/") {
+        post("/facts") {
             call.respond(factsService.getNewFact())
+        }
+        get("/facts/{id}") {
+            var id = call.parameters["id"]
+            call.respond(factsService.getFactById(id))
         }
     }
 }

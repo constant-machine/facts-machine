@@ -6,4 +6,4 @@ ktor:
         port: 8080
     uselessfactsservice:
         url: "https://uselessfacts.jsph.pl/api/v2/facts/random"
-    baseurl: "http://localhost:8080/"
+    baseurl: "http://localhost:8080/facts/"

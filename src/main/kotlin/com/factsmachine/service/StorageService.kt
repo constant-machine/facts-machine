@@ -13,10 +13,10 @@ class InMemoryStorageService : StorageService {
     private val concurrentMap: ConcurrentMap<String, FactHolder> = ConcurrentMap()
 
     override fun saveFact(id: String, factHolder: FactHolder) {
-        concurrentMap.put(id, factHolder)
+        concurrentMap[id] = factHolder
     }
 
     override fun getFact(id: String): FactHolder? {
-        return concurrentMap.get(id)
+        return concurrentMap[id]
     }
 }

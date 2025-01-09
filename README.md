@@ -1,8 +1,10 @@
 # facts-machine
 
-Ktor based web service for wondering upon useless facts and share them.
+Ktor based web service for discovering useless facts and sharing them.
 
-To try it out locally just run `gradle run` and access it at "http://localhost:8080"
+To try it out locally just run `gradle run` and access it at "http://localhost:8080/facts" like that:
+
+`curl --location --request POST 'http://localhost:8080/facts'`
 
 ________________________________________________________________________
 
