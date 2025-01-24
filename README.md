@@ -6,6 +6,14 @@ To try it out locally just run `gradle run` and access it at "http://localhost:8
 
 `curl --location --request POST 'http://localhost:8080/facts'`
 
+Design decisions:
+- dependency injection ktor module (koin) to address unneeded app initialization complexity 
+- use ConcurrentHashMap to store facts along with statistics
+- reasonably decoupled services easy to extend, change and substitute
+
+Configuration:
+- provide base url for a link shortener in ktor.baseurl property in application.yaml file
+
 ________________________________________________________________________
 
 This project was created using the [Ktor Project Generator](https://start.ktor.io).

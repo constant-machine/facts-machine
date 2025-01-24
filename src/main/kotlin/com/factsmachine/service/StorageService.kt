@@ -1,7 +1,7 @@
 package com.factsmachine.service
 
 import com.factsmachine.model.FactHolder
-import io.ktor.util.collections.*
+import io.ktor.util.collections.ConcurrentMap
 
 interface StorageService {
     fun saveFact(id: String, factHolder: FactHolder)
