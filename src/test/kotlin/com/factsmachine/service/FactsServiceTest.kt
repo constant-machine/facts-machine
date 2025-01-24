@@ -64,7 +64,7 @@ class FactsServiceTest : KoinTest {
             val fact = factsService.getNewFact()
 
             assertNotNull(fact)
-            assertEquals("This is an undisputable fact", fact.fact)
+            assertEquals("This is an undisputable fact", fact.originalFact)
         }
     }
 
@@ -74,7 +74,7 @@ class FactsServiceTest : KoinTest {
             val factsService: FactsService by inject()
 
             val fact = factsService.getNewFact()
-            val storedFact = factsService.getFactById(fact.link)
+            val storedFact = factsService.getFactById(fact.shortenedUrl)
 
             assertNotNull(storedFact)
             assertEquals("This is an undisputable fact", storedFact.fact)

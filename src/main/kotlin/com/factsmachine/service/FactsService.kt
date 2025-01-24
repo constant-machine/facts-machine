@@ -3,12 +3,16 @@ package com.factsmachine.service
 import com.factsmachine.adapter.FactsAdapter
 import com.factsmachine.model.Fact
 import com.factsmachine.model.FactHolder
+import com.factsmachine.model.FactStatistics
 import com.factsmachine.service.dto.FactResponseDto
+import com.factsmachine.service.dto.NewFactResponse
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.streams.toList
 
 interface FactsService {
-    suspend fun getNewFact(): FactResponseDto
+    suspend fun getNewFact(): NewFactResponse
     suspend fun getFactById(factId: String?): FactResponseDto
+    suspend fun getFacts(): List<FactResponseDto>
 }
 
 class FactsServiceImpl(
@@ -16,16 +20,25 @@ class FactsServiceImpl(
     private val storageService: StorageService,
     private val baseUrl: String) : FactsService {
 
-    override suspend fun getNewFact(): FactResponseDto {
+    override suspend fun getNewFact(): NewFactResponse {
         val fact = factsAdapter.getFact()
-        storageService.saveFact(fact.id, FactHolder(Fact(fact.id, fact.text), AtomicInteger(0)))
-        return FactResponseDto(fact.text, baseUrl + fact.id)
+        val statistics = FactStatistics(AtomicInteger(0))
+        val factHolder = FactHolder(Fact(fact.id, fact.text, fact.permalink), statistics)
+        storageService.saveFact(fact.id, factHolder)
+        return NewFactResponse(fact.text, baseUrl + fact.id)
     }
 
     override suspend fun getFactById(factId: String?): FactResponseDto {
         if (factId == null) throw RuntimeException("Fact id should not be null")
         val factHolder = storageService.getFact(factId) ?: throw RuntimeException("There is no fact with such id")
-        factHolder.popularity.incrementAndGet()
-        return FactResponseDto(factHolder.fact.text, baseUrl + factHolder.fact.id)
+        factHolder.statistics.popularity.incrementAndGet()
+        return FactResponseDto(factHolder.fact.text, factHolder.fact.originalPermalink)
+    }
+
+    override suspend fun getFacts(): List<FactResponseDto> {
+        val factHolders = storageService.getAllFacts()
+        return factHolders.stream()
+            .map { FactResponseDto(it.fact.text, it.fact.originalPermalink) }
+            .toList()
     }
 }

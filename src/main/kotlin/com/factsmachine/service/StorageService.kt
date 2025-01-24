@@ -6,6 +6,7 @@ import io.ktor.util.collections.ConcurrentMap
 interface StorageService {
     fun saveFact(id: String, factHolder: FactHolder)
     fun getFact(id: String): FactHolder?
+    fun getAllFacts(): List<FactHolder>
 }
 
 class InMemoryStorageService : StorageService {
@@ -18,5 +19,9 @@ class InMemoryStorageService : StorageService {
 
     override fun getFact(id: String): FactHolder? {
         return concurrentMap[id]
+    }
+
+    override fun getAllFacts(): List<FactHolder> {
+        return ArrayList<FactHolder>(concurrentMap.values)
     }
 }

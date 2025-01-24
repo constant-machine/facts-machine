@@ -18,5 +18,8 @@ fun Application.configureRouting() {
             var id = call.parameters["id"]
             call.respond(factsService.getFactById(id))
         }
+        get("/facts") {
+            call.respond(factsService.getFacts())
+        }
     }
 }
