@@ -6,12 +6,12 @@ To try it out locally just run `gradle run` and access it at "http://localhost:8
 
 `curl --location --request POST 'http://localhost:8080/facts'`
 
-Design decisions:
+### Design decisions:
 - dependency injection ktor module (koin) to address unneeded app initialization complexity 
 - use ConcurrentHashMap to store facts along with statistics
 - reasonably decoupled services easy to extend, change and substitute
 
-Configuration:
+### Configuration:
 - provide base url for a link shortener in ktor.baseurl property in application.yaml file
 
 ________________________________________________________________________
@@ -24,7 +24,7 @@ Here are some useful links to get you started:
 - [Ktor GitHub page](https://github.com/ktorio/ktor)
 - The [Ktor Slack chat](https://app.slack.com/client/T09229ZC6/C0A974TJ9). You'll need to [request an invite](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up) to join.
 
-## Features
+### Features
 
 Here's a list of features included in this project:
 
@@ -35,7 +35,7 @@ Here's a list of features included in this project:
 | [Routing](https://start.ktor.io/p/routing)                 | Provides a structured routing DSL                              |
 | [Authentication Basic](https://start.ktor.io/p/auth-basic) | Handles 'Basic' username / password authentication scheme      |
 
-## Building & Running
+### Building & Running
 
 To build or run the project, use one of the following tasks:
 

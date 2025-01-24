@@ -15,11 +15,16 @@ fun Application.configureRouting() {
             call.respond(factsService.getNewFact())
         }
         get("/facts/{id}") {
-            var id = call.parameters["id"]
+            val id = call.parameters["id"]
             call.respond(factsService.getFactById(id))
         }
         get("/facts") {
             call.respond(factsService.getFacts())
+        }
+        get("/facts/{id}/redirect") {
+            val id = call.parameters["id"]
+            val fact = factsService.getFactById(id)
+            call.respondRedirect(fact.originalPermalink)
         }
     }
 }
