@@ -1,6 +1,6 @@
 # facts-machine
 
-Ktor based web service for discovering useless facts and sharing them.
+Ktor based web service for discovering useless facts and sharing them. Not product-ready, for educational purposes only.
 
 To try it out locally just run `gradle run` and access it at "http://localhost:8080/facts" like that:
 
@@ -8,11 +8,12 @@ To try it out locally just run `gradle run` and access it at "http://localhost:8
 
 ### Design decisions:
 - dependency injection ktor module (koin) to address unneeded app initialization complexity 
-- use ConcurrentHashMap to store facts along with statistics
+- use ConcurrentHashMap to store facts in-memory along with statistics
 - reasonably decoupled services easy to extend, change and substitute
 
 ### Configuration:
 - provide base url for a link shortener in ktor.baseurl property in application.yaml file
+- set ADMIN_USERNAME and ADMIN_PASSWORD env properties for the statistics section security
 
 ________________________________________________________________________
 
