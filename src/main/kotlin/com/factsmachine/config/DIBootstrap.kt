@@ -2,10 +2,7 @@ package com.factsmachine.config
 
 import com.factsmachine.adapter.FactsAdapter
 import com.factsmachine.adapter.UselessFactsAdapter
-import com.factsmachine.service.FactsService
-import com.factsmachine.service.FactsServiceImpl
-import com.factsmachine.service.InMemoryStorageService
-import com.factsmachine.service.StorageService
+import com.factsmachine.service.*
 import com.fasterxml.jackson.databind.DeserializationFeature
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
@@ -26,6 +23,7 @@ fun Application.configureDI() {
             single<FactsService> { FactsServiceImpl(get(), get(), baseUrl) }
             single<StorageService> { InMemoryStorageService() }
             single<FactsAdapter> { UselessFactsAdapter(get(), uselessFactsUrl) }
+            single<StatisticsService> { StatisticsServiceImpl(get(), baseUrl) }
             single {
                 HttpClient(OkHttp) {
                     install(ContentNegotiation) {

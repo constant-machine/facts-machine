@@ -2,41 +2,21 @@ package com.factsmachine.config
 
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
 
 fun Application.configureSecurity() {
+
+    val adminUsername = environment.config.property("ktor.security.username").getString()
+    val adminPassword = environment.config.property("ktor.security.password").getString()
+
     authentication {
-        basic(name = "myauth1") {
+        basic(name = "admin") {
             realm = "Ktor Server"
             validate { credentials ->
-                if (credentials.name == credentials.password) {
+                if (adminUsername == credentials.name && adminPassword == credentials.password) {
                     UserIdPrincipal(credentials.name)
                 } else {
                     null
                 }
-            }
-        }
-    
-        form(name = "myauth2") {
-            userParamName = "user"
-            passwordParamName = "password"
-            challenge {
-                /**/
-            }
-        }
-    }
-    routing {
-        authenticate("myauth1") {
-            get("/protected/route/basic") {
-                val principal = call.principal<UserIdPrincipal>()!!
-                call.respondText("Hello ${principal.name}")
-            }
-        }
-        authenticate("myauth2") {
-            get("/protected/route/form") {
-                val principal = call.principal<UserIdPrincipal>()!!
-                call.respondText("Hello ${principal.name}")
             }
         }
     }
