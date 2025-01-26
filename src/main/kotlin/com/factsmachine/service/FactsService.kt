@@ -6,6 +6,8 @@ import com.factsmachine.model.FactHolder
 import com.factsmachine.model.FactStatistics
 import com.factsmachine.service.dto.FactResponseDto
 import com.factsmachine.service.dto.NewFactResponse
+import com.factsmachine.service.error.FactNotFoundException
+import com.factsmachine.service.error.NoFactIdInRequestException
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.streams.toList
 
@@ -29,8 +31,8 @@ class FactsServiceImpl(
     }
 
     override suspend fun getFactById(factId: String?): FactResponseDto {
-        if (factId == null) throw RuntimeException("Fact id should not be null")
-        val factHolder = storageService.getFact(factId) ?: throw RuntimeException("There is no fact with such id")
+        if (factId == null) throw NoFactIdInRequestException()
+        val factHolder = storageService.getFact(factId) ?: throw FactNotFoundException()
         factHolder.statistics.popularity.incrementAndGet()
         return FactResponseDto(factHolder.fact.text, factHolder.fact.originalPermalink)
     }

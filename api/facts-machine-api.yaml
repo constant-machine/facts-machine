@@ -1,0 +1,72 @@
+openapi: 3.0.1
+info:
+  title: Facts Machine API
+  description: API for discovering and sharing useless facts.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /facts:
+    get:
+      summary: Get all facts
+      responses:
+        '200':
+          description: A list of all cached facts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FactResponseDto'
+    post:
+      summary: Get a random fact
+      responses:
+        '200':
+          description: A random fact
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewFactResponse'
+
+  /facts/{factId}:
+    get:
+      summary: Get a fact by ID
+      parameters:
+        - name: factId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A fact by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FactResponseDto'
+        '404':
+          description: Fact not found
+
+components:
+  schemas:
+    FactResponseDto:
+      type: object
+      properties:
+        fact:
+          type: string
+        original_permalink:
+          type: string
+    NewFactResponse:
+      type: object
+      properties:
+        original_fact:
+          type: string
+        shortened_url:
+          type: string
+    StatisticsResponseDto:
+      type: object
+      properties:
+        shortened_url:
+          type: string
+        access_count:
+          type: integer
