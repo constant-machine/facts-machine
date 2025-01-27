@@ -7,8 +7,12 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
+import org.slf4j.LoggerFactory
 
 fun Application.configureErrorHandling() {
+
+    val log = LoggerFactory.getLogger(Application::class.java)
+
     install(StatusPages) {
         exception<Throwable> { call, cause ->
             when (cause) {
@@ -20,6 +24,7 @@ fun Application.configureErrorHandling() {
                 }
                 // below are non-business logic exceptions
                 is ClientRequestException -> {
+                    log.error("4xx exception from the upstream: ${cause.message}", cause)
                     if (HttpStatusCode.RequestTimeout == cause.response.status) {
                         call.respondText(text = HttpStatusCode.RequestTimeout.description, status = HttpStatusCode.RequestTimeout)
                     } else {
@@ -27,6 +32,7 @@ fun Application.configureErrorHandling() {
                     }
                 }
                 is ServerResponseException -> {
+                    log.error("5xx exception from the upstream: ${cause.message}", cause)
                     when (cause.response.status) {
                         HttpStatusCode.BadGateway, HttpStatusCode.TooManyRequests, HttpStatusCode.GatewayTimeout -> {
                             call.respondText(text = cause.response.status.description, status = cause.response.status)
@@ -37,6 +43,7 @@ fun Application.configureErrorHandling() {
                     }
                 }
                 else -> {
+                    log.error("Unexpected exception: ${cause.message}", cause)
                     call.respondText(text = HttpStatusCode.InternalServerError.description, status = HttpStatusCode.InternalServerError)
                 }
             }
