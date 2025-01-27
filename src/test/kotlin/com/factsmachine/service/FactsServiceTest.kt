@@ -41,7 +41,8 @@ class FactsServiceTest : KoinTest {
         }
 
         modules(module {
-            single<FactsService> { FactsServiceImpl(get(), get(), "") }
+            single<FactsService> { FactsServiceImpl(get(), get(), get(), "") }
+            single<IdGeneratorService> { Base62IdGeneratorService() }
             single<StorageService> { InMemoryStorageService() }
             single<FactsAdapter> { UselessFactsAdapter(get(), "http://localhost:8080") }
             single {

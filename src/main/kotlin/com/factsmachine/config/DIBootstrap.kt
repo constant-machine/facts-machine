@@ -20,10 +20,11 @@ fun Application.configureDI() {
     install(Koin) {
         slf4jLogger()
         modules(module {
-            single<FactsService> { FactsServiceImpl(get(), get(), baseUrl) }
+            single<FactsService> { FactsServiceImpl(get(), get(), get(), baseUrl) }
             single<StorageService> { InMemoryStorageService() }
             single<FactsAdapter> { UselessFactsAdapter(get(), uselessFactsUrl) }
             single<StatisticsService> { StatisticsServiceImpl(get(), baseUrl) }
+            single<IdGeneratorService> { Base62IdGeneratorService() }
             single {
                 HttpClient(OkHttp) {
                     install(ContentNegotiation) {

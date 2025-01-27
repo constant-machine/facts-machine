@@ -20,14 +20,16 @@ interface FactsService {
 class FactsServiceImpl(
     private val factsAdapter: FactsAdapter,
     private val storageService: StorageService,
+    private val idGeneratorService: IdGeneratorService,
     private val baseUrl: String) : FactsService {
 
     override suspend fun getNewFact(): NewFactResponse {
         val fact = factsAdapter.getFact()
         val statistics = FactStatistics(AtomicInteger(0))
-        val factHolder = FactHolder(Fact(fact.id, fact.text, fact.permalink), statistics)
-        storageService.saveFact(fact.id, factHolder)
-        return NewFactResponse(fact.text, baseUrl + fact.id)
+        val newId = idGeneratorService.getNewId()
+        val factHolder = FactHolder(Fact(newId, fact.id, fact.text, fact.permalink), statistics)
+        storageService.saveFact(newId, factHolder)
+        return NewFactResponse(fact.text, baseUrl + newId)
     }
 
     override suspend fun getFactById(factId: String?): FactResponseDto {

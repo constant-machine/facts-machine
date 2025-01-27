@@ -8,8 +8,11 @@ To try it out locally just run `gradle run` and access it at "http://localhost:8
 
 ### Design decisions:
 - dependency injection ktor module (koin) to address unneeded app initialization complexity 
-- use ConcurrentHashMap to store facts in-memory along with statistics
+- use ConcurrentHashMap to store facts thread-safe in-memory
 - reasonably decoupled services easy to extend, change and substitute
+- compute short urls and not store them in case of possible hostname changes
+- custom id gen logic makes the service independent of the facts provider, tradeoff is a possibility of storing fact duplicates(addressable)
+- Base64 url safe encoding of the counter value for id generation - no collisions, predictable but fine for our case
 
 ### Configuration:
 - provide base url for a link shortener in ktor.baseurl property in application.yaml file
@@ -24,17 +27,6 @@ Here are some useful links to get you started:
 - [Ktor Documentation](https://ktor.io/docs/home.html)
 - [Ktor GitHub page](https://github.com/ktorio/ktor)
 - The [Ktor Slack chat](https://app.slack.com/client/T09229ZC6/C0A974TJ9). You'll need to [request an invite](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up) to join.
-
-### Features
-
-Here's a list of features included in this project:
-
-| Name                                                       | Description                                                    |
-| ------------------------------------------------------------|---------------------------------------------------------------- |
-| [Koin](https://start.ktor.io/p/koin)                       | Provides dependency injection                                  |
-| [Authentication](https://start.ktor.io/p/auth)             | Provides extension point for handling the Authorization header |
-| [Routing](https://start.ktor.io/p/routing)                 | Provides a structured routing DSL                              |
-| [Authentication Basic](https://start.ktor.io/p/auth-basic) | Handles 'Basic' username / password authentication scheme      |
 
 ### Building & Running
 
