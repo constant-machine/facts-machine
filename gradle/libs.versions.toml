@@ -4,6 +4,7 @@ koin-version = "3.5.6"
 kotlin-version = "2.1.0"
 ktor-version = "3.0.3"
 logback-version = "1.4.14"
+bcrypt-version = "0.10.2"
 
 [libraries]
 koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin-version" }
@@ -24,6 +25,7 @@ kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin-version" }
 koin-test-junit = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin-version" }
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor-version" }
+bcrypt-password-hashing = { module = "at.favre.lib:bcrypt", version.ref = "bcrypt-version"}
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-version" }

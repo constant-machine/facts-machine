@@ -33,6 +33,7 @@ dependencies {
     implementation(libs.ktor.status.pages)
     implementation(libs.logback.classic)
     implementation(libs.ktor.server.config.yaml)
+    implementation(libs.bcrypt.password.hashing)
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)
     testImplementation(libs.ktor.client.mock)

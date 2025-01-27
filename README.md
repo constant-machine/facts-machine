@@ -7,7 +7,7 @@ To try it out locally just run `gradle run` and access it at "http://localhost:8
 `curl --location --request POST 'http://localhost:8080/facts'`
 
 ### Design decisions:
-- dependency injection ktor module (koin) to address unneeded app initialization complexity 
+- dependency injection ktor module (koin) to address unneeded app initialization complexity
 - use ConcurrentHashMap to store facts thread-safe in-memory
 - reasonably decoupled services easy to extend, change and substitute
 - compute short urls and not store them in case of possible hostname changes
@@ -16,7 +16,7 @@ To try it out locally just run `gradle run` and access it at "http://localhost:8
 
 ### Configuration:
 - provide base url for a link shortener in ktor.baseurl property in application.yaml file
-- set ADMIN_USERNAME and ADMIN_PASSWORD env properties for the statistics section security
+- set ADMIN_USERNAME and ADMIN_HASHED_PASSWORD ([hash it here for example](https://bcrypt.online/)) env properties for the statistics section security
 
 ________________________________________________________________________
 
