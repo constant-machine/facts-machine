@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.3
 info:
   title: Facts Machine API
   description: API for discovering and sharing useless facts.
@@ -47,7 +47,24 @@ paths:
         '404':
           description: Fact not found
 
+  /statistics:
+    get:
+      summary: Get statistics
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: Statistics data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatisticsResponseDto'
+
 components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
   schemas:
     FactResponseDto:
       type: object
