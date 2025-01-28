@@ -22,7 +22,7 @@ fun Application.configureErrorHandling() {
                 is NoFactIdInRequestException -> {
                     call.respondText(text = cause.message.orEmpty(), status = HttpStatusCode.BadRequest)
                 }
-                // below are non-business logic exceptions
+                // below are non-business logic exceptions, relay retryable exceptions, mask others and log them
                 is ClientRequestException -> {
                     log.error("4xx exception from the upstream: ${cause.message}", cause)
                     if (HttpStatusCode.RequestTimeout == cause.response.status) {

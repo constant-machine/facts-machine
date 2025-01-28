@@ -2,6 +2,7 @@ package com.factsmachine.service
 
 import com.factsmachine.adapter.FactsAdapter
 import com.factsmachine.adapter.UselessFactsAdapter
+import com.factsmachine.service.error.FactNotFoundException
 import com.fasterxml.jackson.databind.DeserializationFeature
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
@@ -11,13 +12,14 @@ import io.ktor.serialization.jackson.*
 import io.ktor.utils.io.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
+import org.junit.jupiter.api.assertThrows
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
 import org.koin.test.inject
 import kotlin.test.Test
-import kotlin.test.assertNotNull
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 class FactsServiceTest : KoinTest {
 
@@ -79,6 +81,15 @@ class FactsServiceTest : KoinTest {
 
             assertNotNull(storedFact)
             assertEquals("This is an undisputable fact", storedFact.fact)
+        }
+    }
+
+    @Test
+    fun `Should throw an exception if fact is not found`() {
+        runBlocking {
+            val factsService: FactsService by inject()
+
+            assertThrows<FactNotFoundException> { factsService.getFactById("someId") }
         }
     }
 }
